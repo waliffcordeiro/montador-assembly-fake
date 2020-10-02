@@ -147,7 +147,7 @@ bool EQU::EQU_unico(vector<EQU> EQUs) {
     vector<EQU>::iterator it_equ;
     for(it_equ=EQUs.begin(); it_equ != EQUs.end(); it_equ++) {
         if(this->nome == it_equ->nome) {
-            cout << this->nome << " foi definido mais de uma vez. Foi utilizado o primeiro valor informado, verifique se foi um erro."<< endl;
+            cout << this->nome << " foi definido mais de uma vez, verifique se foi um erro. Para o pre-processamento foi utilizado o primeiro valor informado."<< endl;
             return false;
         }
     }
