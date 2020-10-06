@@ -44,6 +44,10 @@ void pre_processamento(string file) {
                                 equ->setValor(tokens[1]);
                                 EQUs.push_back(*equ);
                             }
+                            else { // Verificando quantidade de argumentos no EQU
+                                cout << "O EQU referente ao " << elemento << " foi definido com mais argumentos que o permitido"<<endl;
+                                continue;
+                            }
                         }
                     }
                     else { // Se não for EQU, criar objeto Linha
@@ -118,6 +122,12 @@ void pre_processamento(string file) {
                         }
                     }
                 } else if (tokens[1] == "EQU") { // Salvando EQU na mesma linha que a label
+                    if(tokens.size() > 3) { // Verificando quantidade de argumentos do EQU
+                        string elemento = tokens[0];
+                        elemento.pop_back();
+                        cout << "O EQU referente ao " << elemento << " foi definido com mais argumentos que o permitido"<<endl;
+                        continue;
+                    }
                     tokens[0].pop_back(); // Retirando o : para salvar o nome do EQU
                     EQU *equ = new EQU(tokens[0], tokens[2]);
                     if(equ->EQU_unico(EQUs)) {

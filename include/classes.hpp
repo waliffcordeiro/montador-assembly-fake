@@ -1,3 +1,6 @@
+#ifndef CLASSES_H
+#define CLASSES_H
+
 #include <iostream>
 #include <string>
 #include <unistd.h>
@@ -75,3 +78,5 @@ class EQU {
     bool EQU_unico(vector<EQU> EQUs);
 };
 /*******************************************************************************/
+
+#endif /* CLASSES_H */
