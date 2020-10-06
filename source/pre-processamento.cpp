@@ -100,7 +100,10 @@ void pre_processamento(string file) {
                                 }
                             } else if (qtd_EQUs == EQUs.size()) {
                                 // Iterou todo o vector e não encontrou o elemento
-                                cout << tokens[1] << " foi passado como argumento de um IF mas não foi definido"<< endl;
+                                cout << tokens[1] << " foi passado como argumento de um IF mas não foi definido."<< endl;
+                                // Ignorando a linha seguinte
+                                getline(entrada, linha);
+                                break;
                             }
                             qtd_EQUs++;
                         }
