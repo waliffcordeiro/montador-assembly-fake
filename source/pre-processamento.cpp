@@ -23,7 +23,10 @@ void pre_processamento(string file) {
             tokens = split(linha, ' ', '\t');
 
             if(tokens.size() == 1) { // Só um token. É comando, label ou IF 
-                if(tokens[0].back() == ':') { // Se o último caracter é : então é label ou EQU    
+                if (tokens[0].front() == ';') { // Ignorando comentário
+                    continue;
+                }
+                else if(tokens[0].back() == ':') { // Se o último caracter é : então é label ou EQU    
                     
                     string elemento = tokens[0]; // Salva a label ou EQU
                     string label = tokens[0];
