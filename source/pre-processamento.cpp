@@ -26,53 +26,66 @@ void pre_processamento(string file) {
                 if(tokens[0].back() == ':') { // Se o último caracter é : então é label ou EQU    
                     
                     string elemento = tokens[0]; // Salva a label ou EQU
+                    string label = tokens[0];
 
                     // Pegamos a linha seguinte
-                    getline(entrada, linha);
-                    tokens = split(linha, ' ', '\t'); // Retira espaços e tabulações
+                    if (getline(entrada, linha)) { // Evitar ler o fim do arquivo
+                        tokens = split(linha, ' ', '\t'); // Retira espaços e tabulações
 
-                    // Verificar se é EQU
-                    string isEQU;
-                    isEQU = toUpperCase(tokens[0]);
+                        // Verificar se é EQU
+                        string isEQU;
+                        isEQU = toUpperCase(tokens[0]);
 
-                    if(isEQU == "EQU") { // Criar objeto EQU
-                        elemento.pop_back(); // Retirando o : para salvar o nome do EQU
-                        EQU *equ = new EQU(elemento, "");
-                        if(equ->EQU_unico(EQUs)) {
-                            if (tokens.size() == 2) {
-                                // Garantindo que tem os 2 tokens (EQU e valor)
-                                equ->setValor(tokens[1]);
-                                EQUs.push_back(*equ);
-                            }
-                            else { // Verificando quantidade de argumentos no EQU
-                                cout << "O EQU referente ao " << elemento << " foi definido com mais argumentos que o permitido"<<endl;
-                                continue;
-                            }
-                        }
-                    }
-                    else { // Se não for EQU, criar objeto Linha
-                        Linha *linhaObj = new Linha(elemento, "", "", "");
-
-                        int contador = 0;
-                        for(it=tokens.begin(); it != tokens.end(); it++) { // Iterando a linha complementar à label
-                            string word = (string)*it;
-                            if(word[0] != ';') {
-                                if(contador == 0) {
-                                    // O primeiro elemendo da linha seguinte à label é comando
-                                    linhaObj->setComando(*it);
-                                } else if (contador == 1) {
-                                    // O segundo elemendo da linha seguinte à label é o primeiro operador
-                                    linhaObj->setOperador1(*it);
-                                } else if (contador == 2) {
-                                    // Se tiver 3 argumentos
-                                    // O terceiro elemendo da linha seguinte à label é o segundo operador
-                                    linhaObj->setOperador2(*it);
+                        if(isEQU == "EQU") { // Criar objeto EQU
+                            elemento.pop_back(); // Retirando o : para salvar o nome do EQU
+                            EQU *equ = new EQU(elemento, "");
+                            if(equ->EQU_unico(EQUs)) {
+                                if (tokens.size() == 2) {
+                                    // Garantindo que tem os 2 tokens (EQU e valor)
+                                    equ->setValor(tokens[1]);
+                                    EQUs.push_back(*equ);
+                                }
+                                else { // Verificando quantidade de argumentos no EQU
+                                    cout << "O EQU referente ao " << elemento << " foi definido com mais argumentos que o permitido"<<endl;
+                                    continue;
                                 }
                             }
-                            contador++;
-                    }
-                    linhas.push_back(*linhaObj);                
-                    }                
+                        }
+                        else { // Se não for EQU, criar objeto Linha
+                            Linha *linhaObj = new Linha(label, "", "", "");
+
+                            int contador = 0;
+                            for(it=tokens.begin(); it != tokens.end(); it++) { // Iterando a linha complementar à label
+                                string word = (string)*it;
+                                if(word[0] != ';') {
+                                    if(contador == 0) { // O primeiro elemendo da linha seguinte à label é comando
+                                        linhaObj->setComando(*it);
+                                    } else if (contador == 1) {
+                                        // O segundo elemendo da linha seguinte à label é o primeiro operador
+                                        linhaObj->setOperador1(*it);
+                                        // Verificando se é EQU
+                                        for(it_equ=EQUs.begin(); it_equ != EQUs.end(); it_equ++) {
+                                            if(it_equ->nome == *it) {
+                                                linhaObj->setOperador1(it_equ->valor);
+                                            }
+                                        }
+                                    } else if (contador == 2) {
+                                        // Se tiver 3 argumentos
+                                        // O terceiro elemendo da linha seguinte à label é o segundo operador
+                                        linhaObj->setOperador2(*it);
+                                        // Verificando se é EQU
+                                        for(it_equ=EQUs.begin(); it_equ != EQUs.end(); it_equ++) {
+                                            if(it_equ->nome == *it) {
+                                                linhaObj->setOperador2(it_equ->valor);
+                                            }
+                                        }
+                                    }
+                                }
+                                contador++;
+                            }
+                            linhas.push_back(*linhaObj);                
+                        } 
+                    }               
                 }
                 else { // Não é label nem EQU, então é comando sem argumento
                     Linha *linhaObj = new Linha("", tokens[0], "", "");
