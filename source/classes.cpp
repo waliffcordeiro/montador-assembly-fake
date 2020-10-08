@@ -54,6 +54,11 @@ void Linha::setOperador1(string operador1) {
 void Linha::setOperador2(string operador2) {
     this->operador2 = operador2;
 }
+
+void Linha::setSessao(string sessao) {
+    this->sessao = sessao;
+}
+
 void Linha::set(string rotulo, string comando, string operador1, string operador2) {
     this->rotulo = rotulo;
     this->comando = comando;
@@ -76,6 +81,9 @@ string Linha::getOperador1() {
 string Linha::getOperador2() {
     return this->operador2;
 }
+string Linha::getSessao() {
+    return this->sessao;
+}
 // -------------------
 
 void Linha::imprimir() {
@@ -90,6 +98,9 @@ void Linha::imprimir() {
     }
     if(this->operador2 != "") {
         cout<<this->operador2<<" ";
+    }
+    if(this->sessao != "") {
+        cout<<this->sessao<<" ";
     }
     cout<<endl;  
 }
@@ -155,3 +166,42 @@ bool EQU::EQU_unico(vector<EQU> EQUs) {
 }
 
 /*******************************************************************************/
+
+/***************************** Tabela de Símbolos ******************************/
+TabelaSimbolos::TabelaSimbolos(string simbolo, string valor) { // Construtor
+    this->simbolo = simbolo;
+    this->valor = valor;
+}
+
+TabelaSimbolos::~TabelaSimbolos() { // Destrutor
+
+}
+
+// ----- Setters -----
+void TabelaSimbolos::setSimbolo(string simbolo) {
+    this->simbolo = simbolo;
+}
+
+void TabelaSimbolos::setValor(string valor) {
+    this->valor = valor;
+}
+
+void TabelaSimbolos::set(string simbolo, string valor) {
+    this->simbolo = simbolo;
+    this->valor = valor;
+}
+// -------------------
+
+// ----- Getters -----
+
+string TabelaSimbolos::getSimbolo() {
+    return this->simbolo;
+}
+string TabelaSimbolos::getValor() {
+    return this->valor;
+}
+
+// -------------------
+
+/*******************************************************************************/
+

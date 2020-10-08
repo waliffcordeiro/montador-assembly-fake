@@ -30,6 +30,7 @@ class Linha {
     string comando;
     string operador1;
     string operador2;
+    string sessao;
 
     //Setters e Getters
     void setRotulo(string rotulo);
@@ -43,6 +44,9 @@ class Linha {
 
     void setOperador2(string operador2);
     string getOperador2();
+
+    void setSessao(string sessao);
+    string getSessao();
 
     void set(string rotulo, string comando, string operador1, string operador2);
 
@@ -78,5 +82,34 @@ class EQU {
     bool EQU_unico(vector<EQU> EQUs);
 };
 /*******************************************************************************/
+
+/****************************** Tabela de Símbolos *****************************/
+class TabelaSimbolos {
+
+    public:
+
+    // Construtor e Destrutor
+    TabelaSimbolos(string simbolo, string valor);
+    ~TabelaSimbolos();
+    
+    // Atributos
+    string simbolo;
+    string valor;
+
+    //Setters e Getters
+    void setSimbolo(string simbolo);
+    string getSimbolo();
+
+    void setValor(string valor);
+    string getValor();
+
+    void set(string simbolo, string valor);
+
+};
+/*******************************************************************************/
+
+
+
+
 
 #endif /* CLASSES_H */
