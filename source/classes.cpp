@@ -1,5 +1,44 @@
 #include "../include/classes.hpp"
 
+/*********************************** Maps ***********************************/
+unordered_map<string, int> tabelaInstrucoes = {
+    {"ADD",     1}, 
+    {"SUB",     2}, 
+    {"MULT",    3}, 
+    {"DIV",     4}, 
+    {"JMP",     5}, 
+    {"JMPN",    6}, 
+    {"JMPP",    7}, 
+    {"JMPZ",    8}, 
+    {"COPY",    9}, 
+    {"LOAD",    10},
+    {"STORE",   11},
+    {"INPUT",   12},
+    {"OUTPUT",  13},
+    {"STOP",    14}
+};
+
+unordered_map<string, int> tabelaTamanhos = {
+    {"ADD",     2}, 
+    {"SUB",     2}, 
+    {"MULT",    2}, 
+    {"DIV",     2}, 
+    {"JMP",     2}, 
+    {"JMPN",    2}, 
+    {"JMPP",    2}, 
+    {"JMPZ",    2}, 
+    {"COPY",    3}, 
+    {"LOAD",    2},
+    {"STORE",   2},
+    {"INPUT",   2},
+    {"OUTPUT",  2},
+    {"STOP",    1},
+    {"CONST",   1},
+    {"SPACE",   1},
+    {"SECTION", 0}
+};
+/*****************************************************************************/
+
 /********************************** Funções **********************************/
 
 const vector<string> split(const string& frase, const char& delimitador1, const char& delimitador2) {
@@ -168,9 +207,9 @@ bool EQU::EQU_unico(vector<EQU> EQUs) {
 /*******************************************************************************/
 
 /***************************** Tabela de Símbolos ******************************/
-TabelaSimbolos::TabelaSimbolos(string simbolo, string valor) { // Construtor
+TabelaSimbolos::TabelaSimbolos(string simbolo, int linha) { // Construtor
     this->simbolo = simbolo;
-    this->valor = valor;
+    this->linha = linha;
 }
 
 TabelaSimbolos::~TabelaSimbolos() { // Destrutor
@@ -182,11 +221,11 @@ void TabelaSimbolos::setSimbolo(string simbolo) {
     this->simbolo = simbolo;
 }
 
-void TabelaSimbolos::setLinha(string linha) {
+void TabelaSimbolos::setLinha(int linha) {
     this->linha = linha;
 }
 
-void TabelaSimbolos::set(string simbolo, string linha) {
+void TabelaSimbolos::set(string simbolo, int linha) {
     this->simbolo = simbolo;
     this->linha = linha;
 }
@@ -197,7 +236,7 @@ void TabelaSimbolos::set(string simbolo, string linha) {
 string TabelaSimbolos::getSimbolo() {
     return this->simbolo;
 }
-string TabelaSimbolos::getLinha() {
+int TabelaSimbolos::getLinha() {
     return this->linha;
 }
 
@@ -207,9 +246,7 @@ void TabelaSimbolos::imprimir() {
     if(this->simbolo != "") {
         cout<<this->simbolo<<" ";
     }
-    if(this->linha != "") {
-        cout<<this->linha<<" ";
-    }
+    cout<<this->linha<<" ";
     cout<<endl;  
 }
 

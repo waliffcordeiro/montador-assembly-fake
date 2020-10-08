@@ -9,12 +9,21 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include <unordered_map>
 
 using namespace std;
 
 const vector<string> split(const string& frase, const char& delimitador1, const char& delimitador2);
 
+
+
 string toUpperCase(string str);
+
+/*********************************** Maps *************************************/
+extern unordered_map<string, int> tabelaInstrucoes;
+
+extern unordered_map<string, int> tabelaTamanhos;
+/*******************************************************************************/
 
 /************************************ Linha ************************************/
 class Linha {
@@ -89,21 +98,21 @@ class TabelaSimbolos {
     public:
 
     // Construtor e Destrutor
-    TabelaSimbolos(string simbolo, string linha);
+    TabelaSimbolos(string simbolo, int linha);
     ~TabelaSimbolos();
     
     // Atributos
     string simbolo;
-    string linha;
+    int linha;
 
     //Setters e Getters
     void setSimbolo(string simbolo);
     string getSimbolo();
 
-    void setLinha(string linha);
-    string getLinha();
+    void setLinha(int linha);
+    int getLinha();
 
-    void set(string simbolo, string linha);
+    void set(string simbolo, int linha);
 
     void imprimir();
 
