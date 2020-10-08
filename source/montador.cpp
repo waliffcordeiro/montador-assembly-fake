@@ -1,5 +1,6 @@
 #include "../include/classes.hpp"
 #include "../include/pre-processamento.hpp"
+#include "../include/passagens.hpp"
 
 // Waliff Cordeiro Bandeira - 17/0115810
 
@@ -11,6 +12,9 @@ int main(int argc, char **argv) {
 
     string argumento;
 
+    vector<TabelaSimbolos> tabelaSimbolos;
+    vector<TabelaSimbolos>::iterator it;
+
     if(argc == 3) {
         // argv[1] contém a flag -p ou -o (verificar na hora de gerar a saída)
         argumento = (string)argv[1];
@@ -18,7 +22,10 @@ int main(int argc, char **argv) {
         if(argumento == "-p") {
             pre_processamento(argv[2]);
         } else if(argumento == "-o"){
-            cout<<"-o";
+            tabelaSimbolos = primeira_passagem(argv[2]);
+            for(it=tabelaSimbolos.begin(); it != tabelaSimbolos.end(); it++) {
+                it->imprimir();
+            }            
         }
         else {
             cout<<"Argumento inválido, utilize -p para o pre-processamento e -o para montar"<<endl;

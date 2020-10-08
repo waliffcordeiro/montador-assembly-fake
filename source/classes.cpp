@@ -182,13 +182,13 @@ void TabelaSimbolos::setSimbolo(string simbolo) {
     this->simbolo = simbolo;
 }
 
-void TabelaSimbolos::setValor(string valor) {
-    this->valor = valor;
+void TabelaSimbolos::setLinha(string linha) {
+    this->linha = linha;
 }
 
-void TabelaSimbolos::set(string simbolo, string valor) {
+void TabelaSimbolos::set(string simbolo, string linha) {
     this->simbolo = simbolo;
-    this->valor = valor;
+    this->linha = linha;
 }
 // -------------------
 
@@ -197,11 +197,21 @@ void TabelaSimbolos::set(string simbolo, string valor) {
 string TabelaSimbolos::getSimbolo() {
     return this->simbolo;
 }
-string TabelaSimbolos::getValor() {
-    return this->valor;
+string TabelaSimbolos::getLinha() {
+    return this->linha;
 }
 
 // -------------------
+
+void TabelaSimbolos::imprimir() {
+    if(this->simbolo != "") {
+        cout<<this->simbolo<<" ";
+    }
+    if(this->linha != "") {
+        cout<<this->linha<<" ";
+    }
+    cout<<endl;  
+}
 
 /*******************************************************************************/
 
