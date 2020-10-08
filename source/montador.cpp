@@ -22,10 +22,11 @@ int main(int argc, char **argv) {
         }
         else {
             cout<<"Argumento inválido, utilize -p para o pre-processamento e -o para montar"<<endl;
-            cout<<"Caso queira pre-processar e montar ao mesmo tempo, passe o nome do arquivo sem argumento.";
         }
-    } else if(argc == 2) {
-        // desenvolver algoritmo para pre-processamento + montagem
+    } else {
+        cout<<"O executável ./montador deve ser chamador seguido de um argumento e o nome do arquivo."<<endl;
+        cout<<"Utilize -p para o pre-processamento e -o para montar"<<endl;
+        cout<<"Para o argumento -p utilize um arquivo .asm e para o argumento -o utilize um arquivo .PRE"<<endl;
     } 
     
     return 0;
