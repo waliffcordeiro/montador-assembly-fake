@@ -13,7 +13,7 @@ void pre_processamento(string file) {
 
     // Variáveis de leitura
     ifstream entrada; // ifstream -> leitura de arquivo
-    string linha, token;
+    string linha, token, isEQU;
 
     entrada.open(file);
     if(entrada.is_open()) {
@@ -36,7 +36,6 @@ void pre_processamento(string file) {
                         tokens = split(linha, ' ', '\t'); // Retira espaços e tabulações
 
                         // Verificar se é EQU
-                        string isEQU;
                         isEQU = toUpperCase(tokens[0]);
 
                         if(isEQU == "EQU") { // Criar objeto EQU
@@ -49,7 +48,7 @@ void pre_processamento(string file) {
                                     EQUs.push_back(*equ);
                                 }
                                 else { // Verificando quantidade de argumentos no EQU
-                                    cout << "O EQU referente ao " << elemento << " foi definido com mais argumentos que o permitido"<<endl;
+                                    cout << "O EQU referente ao " << elemento << " foi definido com quantidade não permitida de parâmetros. Utilize apenas um parâmetro."<<endl;
                                     continue;
                                 }
                             }
@@ -96,8 +95,18 @@ void pre_processamento(string file) {
                 }
             }
             else { // Linha comum 
+
+                // Verificar se é EQU
+                isEQU = toUpperCase(tokens[1]);
+                if(isEQU == "EQU" && tokens.size() != 3) {
+                    tokens[0].pop_back();
+                    string elemento = tokens[0];
+                    cout << "O EQU referente ao " << elemento << " foi definido com quantidade não permitida de parâmetros. Utilize apenas um parâmetro."<<endl;
+                    continue;
+                }
+
                 Linha *linhaObj = new Linha("", "", "", "");
-                string isElemento, isEQU;
+                string isElemento;
                 isEQU = toUpperCase(tokens[1]);
                 isElemento = toUpperCase(tokens[0]);
                 if (tokens.size() == 2) { // Section ou IFs
@@ -138,10 +147,10 @@ void pre_processamento(string file) {
                         }
                     }
                 } else if (tokens[1] == "EQU") { // Salvando EQU na mesma linha que a label
-                    if(tokens.size() > 3) { // Verificando quantidade de argumentos do EQU
+                    if(tokens.size() != 3) { // Verificando quantidade de argumentos do EQU
                         string elemento = tokens[0];
                         elemento.pop_back();
-                        cout << "O EQU referente ao " << elemento << " foi definido com mais argumentos que o permitido"<<endl;
+                        cout << "O EQU referente ao " << elemento << " foi definido com quantidade não permitida de parâmetros. Utilize apenas um parâmetro."<<endl;
                         continue;
                     }
                     tokens[0].pop_back(); // Retirando o : para salvar o nome do EQU
@@ -150,6 +159,7 @@ void pre_processamento(string file) {
                         EQUs.push_back(*equ);
                     }
                 } else { // Linha comum com 3 ou 4 componentes
+                    
                     linhaObj->set("", "", "", "");
                     
                     int contador = 0;
@@ -211,6 +221,6 @@ void pre_processamento(string file) {
         entrada.close();
         saida.close();
     } else {
-        cout << "Não foi possível abrir o arquivo"<<endl;   
+        cout << "Não foi possível abrir o arquivo: "<< file <<endl; 
     }
 }
