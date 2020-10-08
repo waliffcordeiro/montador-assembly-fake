@@ -1,4 +1,4 @@
-#include "../include/classes.hpp"
+#include "../include/pre-processamento.hpp"
 
 void pre_processamento(string file) {
     
@@ -14,6 +14,9 @@ void pre_processamento(string file) {
     // Variáveis de leitura
     ifstream entrada; // ifstream -> leitura de arquivo
     string linha, token, isEQU;
+
+    string nome_arquivo = file.substr(file.find_last_of("/") + 1);
+    nome_arquivo = nome_arquivo.substr(0, nome_arquivo.find_last_of('.'));
 
     entrada.open(file);
     if(entrada.is_open()) {
@@ -197,8 +200,7 @@ void pre_processamento(string file) {
             }
         }
         // Salvando no Arquivo
-        ofstream saida; // ofstream -> registro de arquivo, sai do programa e salva em arquivo
-        saida.open("montador.PRE");
+        ofstream saida(nome_arquivo+".PRE"); // ofstream -> registro de arquivo, sai do programa e salva em arquivo
         for(it_linha=linhas.begin(); it_linha != linhas.end(); it_linha++) {
             Linha linha_refatorada = (Linha)*it_linha;
             if(it_linha->rotulo != "") {
