@@ -43,7 +43,6 @@ unordered_map<string, int> tabelaTamanhos = {
 
 bool validaInstrucao(vector<string> tokens, int tamanho) {
     string comando = toUpperCase(tokens[1]);
-    tamanho --; // Quantidade de argumentos
     if (tamanho == 1) {
         return validaWord(tokens[1]);
     } else if (tamanho == 2) {
@@ -273,8 +272,7 @@ void TabelaSimbolos::imprimir() {
 /*******************************************************************************/
 
 /***************************** Tabela de Símbolos ******************************/
-LinhaObjeto::LinhaObjeto(int endereco, int codigo, int simbolo1, int simbolo2) { // Construtor
-    this->endereco = endereco;
+LinhaObjeto::LinhaObjeto(int codigo, int simbolo1, int simbolo2) { // Construtor
     this->codigo = codigo;
     this->simbolo1 = simbolo1;
     this->simbolo2 = simbolo2;
@@ -285,9 +283,6 @@ LinhaObjeto::~LinhaObjeto() { // Destrutor
 }
 
 // ----- Setters -----
-void LinhaObjeto::setEndereco(int endereco) {
-    this->endereco = endereco;
-}
 
 void LinhaObjeto::setCodigo(int codigo) {
     this->codigo = codigo;
@@ -301,8 +296,7 @@ void LinhaObjeto::setSimbolo2(int simbolo2) {
     this->simbolo2 = simbolo2;
 }
 
-void LinhaObjeto::set(int endereco, int codigo, int simbolo1, int simbolo2) {
-    this->endereco = endereco;
+void LinhaObjeto::set(int codigo, int simbolo1, int simbolo2) {
     this->codigo = codigo;
     this->simbolo1 = simbolo1;
     this->simbolo2 = simbolo2;
@@ -310,10 +304,6 @@ void LinhaObjeto::set(int endereco, int codigo, int simbolo1, int simbolo2) {
 // -------------------
 
 // ----- Getters -----
-
-int LinhaObjeto::getEndereco() {
-    return this->endereco;
-}
 int LinhaObjeto::getCodigo() {
     return this->codigo;
 }
@@ -327,9 +317,6 @@ int LinhaObjeto::getSimbolo2() {
 // -------------------
 
 void LinhaObjeto::imprimir() {
-    if(this->endereco != -1) {
-        cout<< "End" << this->endereco<<" ";
-    }
     if(this->codigo != -1) {
         cout<<this->codigo<<" ";
     }
@@ -339,6 +326,7 @@ void LinhaObjeto::imprimir() {
     if(this->simbolo2 != -1) {
         cout<<this->simbolo2<<" ";
     }
+    cout<<endl;
 }
 
 /*******************************************************************************/

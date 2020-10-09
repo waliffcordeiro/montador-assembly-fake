@@ -25,7 +25,8 @@ int main(int argc, char **argv) {
             tabelaSimbolos = primeira_passagem(argv[2]);
             for(it=tabelaSimbolos.begin(); it != tabelaSimbolos.end(); it++) {
                 it->imprimir();
-            }                   
+            }
+            segunda_passagem(argv[2], tabelaSimbolos);                   
         }
         else {
             cout<<"Argumento inválido, utilize -p para o pre-processamento e -o para montar"<<endl;

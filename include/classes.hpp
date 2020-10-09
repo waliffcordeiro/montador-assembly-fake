@@ -132,18 +132,15 @@ class LinhaObjeto {
     public:
 
     // Construtor e Destrutor
-    LinhaObjeto(int endereco, int codigo, int simbolo1, int simbolo2);
+    LinhaObjeto(int codigo, int simbolo1, int simbolo2);
     ~LinhaObjeto();
     
-    // Atributos
-    int endereco; // Posição da operação operação
+    // Atributo
     int codigo;   // Código da instrução
     int simbolo1; // Primeiro argumento
     int simbolo2; // Segundo argumento
 
     //Setters e Getters
-    void setEndereco(int endereco);
-    int getEndereco();
 
     void setCodigo(int codigo);
     int getCodigo();
@@ -154,7 +151,7 @@ class LinhaObjeto {
     void setSimbolo2(int simbolo2);
     int getSimbolo2();
 
-    void set(int endereco, int codigo, int simbolo1, int simbolo2);
+    void set(int codigo, int simbolo1, int simbolo2);
 
     void imprimir();
 };

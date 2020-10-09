@@ -30,6 +30,7 @@ vector<TabelaSimbolos> primeira_passagem(string file) {
                     }
                 }
                 // Se não foi definida, definir
+                tokens[0].pop_back(); // Retirando dois pontos
                 TabelaSimbolos *tabela = new TabelaSimbolos(tokens[0], contador_posicao);
                 tabelaSimbolos.push_back(*tabela);
                 
@@ -60,17 +61,16 @@ vector<TabelaSimbolos> primeira_passagem(string file) {
     }
 }
 
-bool segunda_passagem(string file, vector<TabelaSimbolos>) {
+bool segunda_passagem(string file, vector<TabelaSimbolos> tabelaSimbolos) {
     
     ifstream entrada; // ifstream -> leitura de arquivo
 
     string linha, token, sessao;
-    vector<string> tokens, sessoes;
+    vector<string> sessoes;
 
     vector<LinhaObjeto> linhaObj;
-    vector<LinhaObjeto>::iterator it_obj;
 
-    int contador_linha = 1, contador_posicao = 0;
+    int contador_linha = 1;
     bool erro = false;
     
     // Pegando o nome do arquivo sem a extensão e o path
@@ -80,6 +80,7 @@ bool segunda_passagem(string file, vector<TabelaSimbolos>) {
     entrada.open(file);
     if(entrada.is_open()) {
         while(getline(entrada, linha)) {
+            vector<string> tokens;
             tokens = split(linha, ' ', '\t');
 
             string isSessao = toUpperCase(tokens[0]);
@@ -88,28 +89,60 @@ bool segunda_passagem(string file, vector<TabelaSimbolos>) {
                 sessoes.push_back(sessao);
                 contador_linha++;
                 continue;
-            }
-            else if (validaLabel(tokens[0])) { // Se não é section inicia-se com label, instrução ou diretiva
-                // Iniciada em label
-                string comando = toUpperCase(tokens[1]);
+            } else { // Se não é section inicia-se com label, instrução ou diretiva
+                if (validaLabel(tokens[0])) { // Iniciada em label
+                    tokens.erase(tokens.begin()); // Retirando Label   
+                }
+                string comando = toUpperCase(tokens[0]);
                 if(tabelaInstrucoes.find(comando) != tabelaInstrucoes.end()) {
                     // Verifica se é instrução
                     int tamanho = tabelaTamanhos[comando];
-                    if(tamanho == (tokens.size() - 1)) {
+                    int qtd_argumentos = tamanho - 1;
+                    if(tamanho == (tokens.size())) {
                         // Substraindo a label
                         // É instrução e o tamanho é válido, verificar argumentos
-                        if(validaInstrucao(tokens, tamanho)) {
+                        if (qtd_argumentos == 0) {
+
+                        } else if(validaInstrucao(tokens, qtd_argumentos)) {
                             // Instrução válida!
                             int codigo = tabelaInstrucoes[comando];
-
-                            // LinhaObjeto *linha = new LinhaObjeto(contador_posicao, codigo, );
+                            int argumento1 = -1, argumento2 = -1;
+                            /************ Consultando a tabela de símbolos ************/
+                            if(qtd_argumentos == 1) {
+                                for(TabelaSimbolos &simbolo : tabelaSimbolos) {
+                                        if(simbolo.getSimbolo() == tokens[1]) {
+                                            argumento1 = simbolo.getPosicao();
+                                            break;
+                                        }
+                                }
+                            } else if(qtd_argumentos == 2) {
+                                if(comando == "COPY") {
+                                    tokens[1].pop_back();
+                                }
+                                for(TabelaSimbolos &simbolo : tabelaSimbolos) {
+                                    if(simbolo.getSimbolo() == tokens[1]) {
+                                        argumento1 = simbolo.getPosicao();
+                                    }
+                                    if(simbolo.getSimbolo() == tokens[2]) {
+                                        argumento2 = simbolo.getPosicao();
+                                    }
+                                }
+                                continue;
+                            }
+                            /*********************************************************/
+                            LinhaObjeto *linhaobjeto = new LinhaObjeto(codigo, argumento1, argumento2);
+                            linhaObj.push_back(*linhaobjeto);
                         } else {
+                            erro = true;
                             // Erro
+                            contador_linha++;
+                            continue;
                         }
                     } else {
                         erro = true;
                         cout << "Erro. Na linha " << contador_linha << " a instrução" <<
                         comando << " possui menos operadores que o necessário";
+                        contador_linha++;
                         continue;
                     }
                 } else if (tabelaTamanhos.find(comando) != tabelaTamanhos.end()) {
@@ -117,6 +150,8 @@ bool segunda_passagem(string file, vector<TabelaSimbolos>) {
                     if(sessao == "TEXT") {
                         erro = true;
                         cout << "Erro. A diretiva " << comando << "está na Section Text";
+                        contador_linha++;
+                        continue;
                     } else {
                         // Tratar diretivas
                     }
@@ -124,8 +159,11 @@ bool segunda_passagem(string file, vector<TabelaSimbolos>) {
                     // Não é comando nem diretiva, conferir sintaxe
                 }
 
-            } else {
-                // Diretiva ou Instrução
+            }
+        }
+        if(!linhaObj.empty()) { 
+            for(LinhaObjeto &linha : linhaObj) {
+                linha.imprimir();
             }
         }
 
