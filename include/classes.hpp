@@ -102,21 +102,21 @@ class TabelaSimbolos {
     public:
 
     // Construtor e Destrutor
-    TabelaSimbolos(string simbolo, int linha);
+    TabelaSimbolos(string simbolo, int posicao);
     ~TabelaSimbolos();
     
     // Atributos
     string simbolo;
-    int linha;
+    int posicao;
 
     //Setters e Getters
     void setSimbolo(string simbolo);
     string getSimbolo();
 
-    void setLinha(int linha);
-    int getLinha();
+    void setPosicao(int posicao);
+    int getPosicao();
 
-    void set(string simbolo, int linha);
+    void set(string simbolo, int posicao);
 
     void imprimir();
 

@@ -217,9 +217,9 @@ bool EQU::EQU_unico(vector<EQU> EQUs) {
 /*******************************************************************************/
 
 /***************************** Tabela de Símbolos ******************************/
-TabelaSimbolos::TabelaSimbolos(string simbolo, int linha) { // Construtor
+TabelaSimbolos::TabelaSimbolos(string simbolo, int posicao) { // Construtor
     this->simbolo = simbolo;
-    this->linha = linha;
+    this->posicao = posicao;
 }
 
 TabelaSimbolos::~TabelaSimbolos() { // Destrutor
@@ -231,13 +231,13 @@ void TabelaSimbolos::setSimbolo(string simbolo) {
     this->simbolo = simbolo;
 }
 
-void TabelaSimbolos::setLinha(int linha) {
-    this->linha = linha;
+void TabelaSimbolos::setPosicao(int posicao) {
+    this->posicao = posicao;
 }
 
-void TabelaSimbolos::set(string simbolo, int linha) {
+void TabelaSimbolos::set(string simbolo, int posicao) {
     this->simbolo = simbolo;
-    this->linha = linha;
+    this->posicao = posicao;
 }
 // -------------------
 
@@ -246,8 +246,8 @@ void TabelaSimbolos::set(string simbolo, int linha) {
 string TabelaSimbolos::getSimbolo() {
     return this->simbolo;
 }
-int TabelaSimbolos::getLinha() {
-    return this->linha;
+int TabelaSimbolos::getPosicao() {
+    return this->posicao;
 }
 
 // -------------------
@@ -256,7 +256,7 @@ void TabelaSimbolos::imprimir() {
     if(this->simbolo != "") {
         cout<<this->simbolo<<" ";
     }
-    cout<<this->linha<<" ";
+    cout<<this->posicao<<" ";
     cout<<endl;  
 }
 
