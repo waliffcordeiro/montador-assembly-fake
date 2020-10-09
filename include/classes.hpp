@@ -19,6 +19,8 @@ const vector<string> split(const string& frase, const char& delimitador1, const 
 
 string toUpperCase(string str);
 
+bool validaInstrucao(vector<string> tokens, int tamanho);
+
 bool validaLabel (string label);
 bool validaWord (string word);
 bool validaCopy (string argumento);
@@ -123,8 +125,41 @@ class TabelaSimbolos {
 };
 /*******************************************************************************/
 
+/****************************** Tabela de Símbolos *****************************/
 
+class LinhaObjeto {
 
+    public:
+
+    // Construtor e Destrutor
+    LinhaObjeto(int endereco, int codigo, int simbolo1, int simbolo2);
+    ~LinhaObjeto();
+    
+    // Atributos
+    int endereco; // Posição da operação operação
+    int codigo;   // Código da instrução
+    int simbolo1; // Primeiro argumento
+    int simbolo2; // Segundo argumento
+
+    //Setters e Getters
+    void setEndereco(int endereco);
+    int getEndereco();
+
+    void setCodigo(int codigo);
+    int getCodigo();
+
+    void setSimbolo1(int simbolo1);
+    int getSimbolo1();
+
+    void setSimbolo2(int simbolo2);
+    int getSimbolo2();
+
+    void set(int endereco, int codigo, int simbolo1, int simbolo2);
+
+    void imprimir();
+};
+
+/*******************************************************************************/
 
 
 #endif /* CLASSES_H */

@@ -5,6 +5,6 @@
 
 vector<TabelaSimbolos> primeira_passagem(string file);
 
-void segunda_passagem(string file, vector<TabelaSimbolos>);
+bool segunda_passagem(string file, vector<TabelaSimbolos>);
 
 #endif /* PASSAGENS_H */
