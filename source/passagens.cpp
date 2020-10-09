@@ -97,16 +97,18 @@ bool segunda_passagem(string file, vector<TabelaSimbolos> tabelaSimbolos) {
                 if(tabelaInstrucoes.find(comando) != tabelaInstrucoes.end()) {
                     // Verifica se é instrução
                     int tamanho = tabelaTamanhos[comando];
-                    int qtd_argumentos = tamanho - 1;
+                    int argumento1 = -1, argumento2 = -1;
+                    int qtd_argumentos = tamanho - 1, codigo;
                     if(tamanho == (tokens.size())) {
-                        // Substraindo a label
                         // É instrução e o tamanho é válido, verificar argumentos
+                        codigo = tabelaInstrucoes[comando];
                         if (qtd_argumentos == 0) {
-
+                            LinhaObjeto *linhaobjeto = new LinhaObjeto(codigo, argumento1, argumento2);
+                            linhaObj.push_back(*linhaobjeto);
+                            continue;
+                            
                         } else if(validaInstrucao(tokens, qtd_argumentos)) {
                             // Instrução válida!
-                            int codigo = tabelaInstrucoes[comando];
-                            int argumento1 = -1, argumento2 = -1;
                             /************ Consultando a tabela de símbolos ************/
                             if(qtd_argumentos == 1) {
                                 for(TabelaSimbolos &simbolo : tabelaSimbolos) {
@@ -127,11 +129,11 @@ bool segunda_passagem(string file, vector<TabelaSimbolos> tabelaSimbolos) {
                                         argumento2 = simbolo.getPosicao();
                                     }
                                 }
-                                continue;
                             }
                             /*********************************************************/
                             LinhaObjeto *linhaobjeto = new LinhaObjeto(codigo, argumento1, argumento2);
                             linhaObj.push_back(*linhaobjeto);
+                            continue;
                         } else {
                             erro = true;
                             // Erro
@@ -149,11 +151,32 @@ bool segunda_passagem(string file, vector<TabelaSimbolos> tabelaSimbolos) {
                     // Verifica se é diretiva
                     if(sessao == "TEXT") {
                         erro = true;
-                        cout << "Erro. A diretiva " << comando << "está na Section Text";
+                        cout << "Linha: " << contador_linha << " Erro. A diretiva " << 
+                        comando << "está na Section Text";
                         contador_linha++;
                         continue;
                     } else {
-                        // Tratar diretivas
+                        int codigo, argumento1 = -1, argumento2 = -1;
+                        if(comando == "SPACE") {
+                            codigo = 0;
+                            LinhaObjeto *linhaobjeto = new LinhaObjeto(codigo, argumento1, argumento2);
+                            linhaObj.push_back(*linhaobjeto);
+                            contador_linha++;
+                            continue;
+                        } else if (comando == "CONST") {
+                            if (tokens.size() == 2) {
+                                codigo = -1;
+                                if(isInteger(tokens[1])) {
+                                    argumento1 = stoi(tokens[1]);
+                                    LinhaObjeto *linhaobjeto = new LinhaObjeto(codigo, argumento1, argumento2);
+                                    linhaObj.push_back(*linhaobjeto);
+                                    contador_linha++;
+                                    continue;
+                                }
+                            }
+                        } else {
+                            cout << "Operação " << comando << "indefinida na linha " << contador_linha << endl;   
+                        }
                     }
                 } else {
                     // Não é comando nem diretiva, conferir sintaxe

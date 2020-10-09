@@ -17,6 +17,8 @@ using namespace std;
 /********************************* Funções *************************************/
 const vector<string> split(const string& frase, const char& delimitador1, const char& delimitador2);
 
+bool isInteger(const std::string &s);
+
 string toUpperCase(string str);
 
 bool validaInstrucao(vector<string> tokens, int tamanho);

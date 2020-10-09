@@ -41,6 +41,10 @@ unordered_map<string, int> tabelaTamanhos = {
 
 /********************************** Funções **********************************/
 
+bool isInteger(const std::string &s) {
+    return std::regex_match(s, std::regex("-?[0-9]{0,10}"));
+}
+
 bool validaInstrucao(vector<string> tokens, int tamanho) {
     string comando = toUpperCase(tokens[1]);
     if (tamanho == 1) {
