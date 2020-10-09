@@ -200,7 +200,7 @@ void pre_processamento(string file) {
             }
         }
         // Salvando no Arquivo
-        ofstream saida(nome_arquivo+".PRE"); // ofstream -> registro de arquivo, sai do programa e salva em arquivo
+        ofstream saida(nome_arquivo+".pre"); // ofstream -> registro de arquivo, sai do programa e salva em arquivo
         for(it_linha=linhas.begin(); it_linha != linhas.end(); it_linha++) {
             Linha linha_refatorada = (Linha)*it_linha;
             if(it_linha->rotulo != "") {

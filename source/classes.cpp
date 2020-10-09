@@ -41,6 +41,16 @@ unordered_map<string, int> tabelaTamanhos = {
 
 /********************************** Funções **********************************/
 
+bool validaLabel (string label) {
+    return label.size() <= 50 && regex_match(label, regex("^[a-zA-Z_$][a-zA-Z_$0-9]*[:]"));
+}
+bool validaWord (string word) {
+    return word.size() <= 50 && regex_match(word, regex("^[a-zA-Z_$][a-zA-Z_$0-9]*"));
+}
+bool validaCopy (string argumento) {
+    return argumento.size() <= 50 && regex_match(argumento, regex("^[a-zA-Z_$][a-zA-Z_$0-9]*[,]"));
+}
+
 const vector<string> split(const string& frase, const char& delimitador1, const char& delimitador2) {
 	string buff{""};
 	vector<string> palavras;

@@ -59,3 +59,25 @@ vector<TabelaSimbolos> primeira_passagem(string file) {
         return tabelaSimbolos;
     }
 }
+
+void segunda_passagem(string file, vector<TabelaSimbolos>) {
+    
+    ifstream entrada; // ifstream -> leitura de arquivo
+
+    string linha, token;
+    vector<string> tokens;
+    
+    // Pegando o nome do arquivo sem a extensão e o path
+    string nome_arquivo = file.substr(file.find_last_of("/") + 1);
+    nome_arquivo = nome_arquivo.substr(0, nome_arquivo.find_last_of('.'));
+
+    entrada.open(file);
+    if(entrada.is_open()) {
+        while(getline(entrada, linha)) {
+            tokens = split(linha, ' ', '\t');
+        }
+
+    } else {
+        cout << "Não foi possível abrir o arquivo: "<< file <<endl; 
+    }
+}

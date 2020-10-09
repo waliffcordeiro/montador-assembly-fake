@@ -10,16 +10,21 @@
 #include <iostream>
 #include <vector>
 #include <unordered_map>
+#include <regex>
 
 using namespace std;
 
+/********************************* Funções *************************************/
 const vector<string> split(const string& frase, const char& delimitador1, const char& delimitador2);
-
-
 
 string toUpperCase(string str);
 
-/*********************************** Maps *************************************/
+bool validaLabel (string label);
+bool validaWord (string word);
+bool validaCopy (string argumento);
+/*******************************************************************************/
+
+/*********************************** Maps **************************************/
 extern unordered_map<string, int> tabelaInstrucoes;
 
 extern unordered_map<string, int> tabelaTamanhos;
@@ -61,7 +66,6 @@ class Linha {
 
     void imprimir();
 };
-
 /*******************************************************************************/
 
 /************************************* EQU *************************************/
