@@ -106,6 +106,7 @@ bool segunda_passagem(string file, vector<TabelaSimbolos> tabelaSimbolos) {
                 ") Erro sintático. Mais de uma label definida na linha." << endl;
                 erro = true;
                 contador_linha++;
+                continue;
             }
             /******************************************************/
 
@@ -118,6 +119,14 @@ bool segunda_passagem(string file, vector<TabelaSimbolos> tabelaSimbolos) {
             } else { // Se não é section inicia-se com label, instrução ou diretiva
                 if (validaLabel(tokens[0])) { // Iniciada em label
                     tokens.erase(tokens.begin()); // Retirando Label   
+                } else if (tokens[0].back() == ':') {
+                    if (!validaLabel(tokens[0])) { // Verificando se o token da label está com formato inválido
+                        cout << "(Linha: "<< contador_linha <<") Erro léxico. A label " <<
+                        tokens[0] << " está com formato inválido." << endl;
+                        erro = true;
+                        contador_linha++;
+                        continue;
+                    }
                 }
                 string comando = toUpperCase(tokens[0]);
                 if(tabelaInstrucoes.find(comando) != tabelaInstrucoes.end()) { // Verifica se é instrução
@@ -177,7 +186,7 @@ bool segunda_passagem(string file, vector<TabelaSimbolos> tabelaSimbolos) {
                         }
                     } else {
                         erro = true;
-                        cout << "(Linha: "  << contador_linha << ") Erro sintático." << " A instrução" <<
+                        cout << "(Linha: "  << contador_linha << ") Erro sintático." << " A instrução " <<
                         comando << " possui quantidade inválida de argumentos" << endl;
                         contador_linha++;
                         continue;
@@ -187,7 +196,7 @@ bool segunda_passagem(string file, vector<TabelaSimbolos> tabelaSimbolos) {
                     if(sessao != "DATA") {
                         erro = true;
                         cout << "(Linha: " << contador_linha << ") Erro semântico. A diretiva " << 
-                        comando << "não está na Section correta.";
+                        comando << "não está na Section correta." << endl;
                         contador_linha++;
                         continue;
                     } else {
@@ -209,13 +218,19 @@ bool segunda_passagem(string file, vector<TabelaSimbolos> tabelaSimbolos) {
                                     continue;
                                 }
                             }
-                        } else {
-                            cout << "(Linha: " << contador_linha << ") Erro léxico. Operação " << comando << " inválida" << endl;   
+                        } else { // Não 
+                            cout << "(Linha: " << contador_linha << ") Erro léxico. Operação " << comando << " inválida" << endl; 
+                            erro = true;
+                            contador_linha++;
+                            continue;  
                         }
                     }
                 } else {
                     // Não é comando nem diretiva, conferir sintaxe
                     cout << "(Linha: " << contador_linha << ") Erro léxico. Operação inválida: " << comando << endl;
+                    contador_linha++;
+                    erro = true;
+                    continue;
                 }
 
             }
@@ -227,7 +242,7 @@ bool segunda_passagem(string file, vector<TabelaSimbolos> tabelaSimbolos) {
                     existeText = true;
                 }
                 else if(sect == "DATA") {
-                    existeText = true;
+                    existeData = true;
                 }
             }
         }
