@@ -62,32 +62,33 @@ void pre_processamento(string file) {
                             int contador = 0;
                             for(it=tokens.begin(); it != tokens.end(); it++) { // Iterando a linha complementar à label
                                 string word = (string)*it;
-                                if(word[0] != ';') {
-                                    if(contador == 0) { // O primeiro elemendo da linha seguinte à label é comando
-                                        linhaObj->setComando(*it);
-                                    } else if (contador == 1) {
-                                        // O segundo elemendo da linha seguinte à label é o primeiro operador
-                                        linhaObj->setOperador1(*it);
-                                        // Verificando se é EQU
-                                        for(it_equ=EQUs.begin(); it_equ != EQUs.end(); it_equ++) {
-                                            if(it_equ->nome == *it) {
-                                                linhaObj->setOperador1(it_equ->valor);
-                                            }
+                                if(word[0] == ';') { // Ignorando comentários
+                                    break;
+                                }
+                                if(contador == 0) { // O primeiro elemendo da linha seguinte à label é comando
+                                    linhaObj->setComando(*it);
+                                } else if (contador == 1) {
+                                    // O segundo elemendo da linha seguinte à label é o primeiro operador
+                                    linhaObj->setOperador1(*it);
+                                    // Verificando se é EQU
+                                    for(it_equ=EQUs.begin(); it_equ != EQUs.end(); it_equ++) {
+                                        if(it_equ->nome == *it) {
+                                            linhaObj->setOperador1(it_equ->valor);
                                         }
-                                    } else if (contador == 2) {
-                                        // Se tiver 3 argumentos
-                                        // O terceiro elemendo da linha seguinte à label é o segundo operador
-                                        linhaObj->setOperador2(*it);
-                                        // Verificando se é EQU
-                                        for(it_equ=EQUs.begin(); it_equ != EQUs.end(); it_equ++) {
-                                            if(it_equ->nome == *it) {
-                                                linhaObj->setOperador2(it_equ->valor);
-                                            }
+                                    }
+                                } else if (contador == 2) {
+                                    // Se tiver 3 argumentos
+                                    // O terceiro elemendo da linha seguinte à label é o segundo operador
+                                    linhaObj->setOperador2(*it);
+                                    // Verificando se é EQU
+                                    for(it_equ=EQUs.begin(); it_equ != EQUs.end(); it_equ++) {
+                                        if(it_equ->nome == *it) {
+                                            linhaObj->setOperador2(it_equ->valor);
                                         }
                                     }
                                 }
-                                contador++;
                             }
+                            contador++;
                             linhas.push_back(*linhaObj);                
                         } 
                     }               
@@ -168,31 +169,33 @@ void pre_processamento(string file) {
                     int contador = 0;
                     for(it=tokens.begin(); it != tokens.end(); it++) {
                         string word = (string)*it;
-                        if(word[0] != ';') { // Ignorando os comentários
-                            if(contador == 0) {
-                                linhaObj->setRotulo(*it);
-                            } else if (contador == 1) {
-                                linhaObj->setComando(*it);
-                            } else if (contador == 2) {
-                                // Atribui o argumento ao operador1
-                                linhaObj->setOperador1(*it);
-                                for(it_equ=EQUs.begin(); it_equ != EQUs.end(); it_equ++) {
-                                    // Se o argumento for EQU, redefine
-                                    if(it_equ->nome == *it) {
-                                        linhaObj->setOperador1(it_equ->valor);
-                                    }
+                        if(word[0] == ';') { // Ignorando os comentários
+                            break;
+                        }
+                        if(contador == 0) {
+                            linhaObj->setRotulo(*it);
+                        } else if (contador == 1) {
+                            linhaObj->setComando(*it);
+                        } else if (contador == 2) {
+                            // Atribui o argumento ao operador1
+                            linhaObj->setOperador1(*it);
+                            for(it_equ=EQUs.begin(); it_equ != EQUs.end(); it_equ++) {
+                                // Se o argumento for EQU, redefine
+                                if(it_equ->nome == *it) {
+                                    linhaObj->setOperador1(it_equ->valor);
                                 }
-                            } else if (contador == 3) {
-                                // Atribui o argumento ao operador2
-                                linhaObj->setOperador2(*it);
-                                for(it_equ=EQUs.begin(); it_equ != EQUs.end(); it_equ++) {
-                                    // Se o argumento for EQU, redefine
-                                    if(it_equ->nome == *it) {
-                                        linhaObj->setOperador2(it_equ->valor);
-                                    }
+                            }
+                        } else if (contador == 3) {
+                            // Atribui o argumento ao operador2
+                            linhaObj->setOperador2(*it);
+                            for(it_equ=EQUs.begin(); it_equ != EQUs.end(); it_equ++) {
+                                // Se o argumento for EQU, redefine
+                                if(it_equ->nome == *it) {
+                                    linhaObj->setOperador2(it_equ->valor);
                                 }
                             }
                         }
+                        
                         contador++;
                     }         
                 }

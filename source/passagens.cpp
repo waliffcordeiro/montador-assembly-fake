@@ -302,10 +302,21 @@ bool segunda_passagem(string file, vector<TabelaSimbolos> tabelaSimbolos) {
             erro = true;
         }
         if(!linhaObj.empty() && !erro) { 
-            for(LinhaObjeto &linha : linhaObj) {
-                linha.imprimir();
+            ofstream saida(nome_arquivo+".o"); // ofstream -> registro de arquivo, sai do programa e salva em arquivo
+            for(LinhaObjeto &valor : linhaObj) {
+                    if(valor.codigo != -1) {
+                        saida<<valor.codigo<<" ";
+                    }
+                    if(valor.simbolo1 != -1) {
+                        saida<<valor.simbolo1<<" ";
+                    }
+                    if(valor.simbolo2 != -1) {
+                        saida<<valor.simbolo2<<" ";
+                    }                    
             }
+            saida.close();
         }
+        entrada.close();
 
     } else {
         cout << "Não foi possível abrir o arquivo: "<< file <<endl; 
