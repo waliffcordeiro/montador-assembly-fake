@@ -36,10 +36,12 @@ vector<TabelaSimbolos> primeira_passagem(string file) {
                     }
                 }
                 // Se não foi definida, definir
-                tokens[0].pop_back(); // Retirando dois pontos
-                TabelaSimbolos *tabela = new TabelaSimbolos(tokens[0], contador_posicao);
-                tabelaSimbolos.push_back(*tabela);
-                
+                if(validaLabel(tokens[0])) { // Verificando se o formato da label é valido
+                    tokens[0].pop_back(); // Retirando dois pontos
+                    TabelaSimbolos *tabela = new TabelaSimbolos(tokens[0], contador_posicao);
+                    tabelaSimbolos.push_back(*tabela);
+                    
+                }
                 // Salvando o comando ou diretiva referente à label
                 comando = toUpperCase(tokens[1]);
 
@@ -154,23 +156,62 @@ bool segunda_passagem(string file, vector<TabelaSimbolos> tabelaSimbolos) {
                             // Instrução válida!
                             /************ Consultando a tabela de símbolos ************/
                             if(qtd_argumentos == 1) {
+                                bool encontrouSimbolo = false;
                                 for(TabelaSimbolos &simbolo : tabelaSimbolos) {
                                         if(simbolo.getSimbolo() == tokens[1]) {
                                             argumento1 = simbolo.getPosicao();
+                                            encontrouSimbolo = true;
                                             break;
                                         }
+                                }
+                                if(!encontrouSimbolo) {
+                                    cout << "(Linha: " << contador_linha << 
+                                    ") Erro semântico. O símbolo" << tokens[1] << 
+                                    " não está definido na tabela de símbolos"<<endl;
+                                    erro = true;
+                                    contador_linha++;
+                                    continue;
                                 }
                             } else if(qtd_argumentos == 2) {
                                 if(comando == "COPY") {
                                     tokens[1].pop_back();
                                 }
+                                bool encontrouSimbolo1 = false, encontrouSimbolo2 = false;
                                 for(TabelaSimbolos &simbolo : tabelaSimbolos) {
                                     if(simbolo.getSimbolo() == tokens[1]) {
+                                        encontrouSimbolo1 = true;
                                         argumento1 = simbolo.getPosicao();
                                     }
                                     if(simbolo.getSimbolo() == tokens[2]) {
+                                        encontrouSimbolo2 = true;
                                         argumento2 = simbolo.getPosicao();
                                     }
+                                }
+                                if(!encontrouSimbolo1) {
+                                    cout << "(Linha: " << contador_linha << 
+                                    ") Erro semântico. O simbolo do primeiro argumento " << tokens[1] << 
+                                    " não está definido na tabela de símbolos"<<endl;
+                                    if(!encontrouSimbolo2) {
+                                        cout << "(Linha: " << contador_linha << 
+                                        ") Erro semântico. O simbolo do segundo argumento " << tokens[2] << 
+                                        " não está definido na tabela de símbolos"<<endl;
+                                    }
+                                    erro = true;
+                                    contador_linha++;
+                                    continue;
+                                }
+                                if(!encontrouSimbolo2) {
+                                    cout << "(Linha: " << contador_linha << 
+                                    ") Erro semântico. O simbolo do segundo argumento " << tokens[2] << 
+                                    " não está definido na tabela de símbolos"<<endl;
+                                    if(!encontrouSimbolo1) {
+                                        cout << "(Linha: " << contador_linha << 
+                                        ") Erro semântico. O simbolo do primeiro argumento " << tokens[1] << 
+                                        " não está definido na tabela de símbolos"<<endl;
+                                    }
+                                    erro = true;
+                                    contador_linha++;
+                                    continue;
                                 }
                             }
                             /*********************************************************/
@@ -196,7 +237,7 @@ bool segunda_passagem(string file, vector<TabelaSimbolos> tabelaSimbolos) {
                     if(sessao != "DATA") {
                         erro = true;
                         cout << "(Linha: " << contador_linha << ") Erro semântico. A diretiva " << 
-                        comando << "não está na Section correta." << endl;
+                        comando << " não está na Section correta." << endl;
                         contador_linha++;
                         continue;
                     } else {
