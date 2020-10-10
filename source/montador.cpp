@@ -22,11 +22,15 @@ int main(int argc, char **argv) {
         if(argumento == "-p") {
             pre_processamento(argv[2]);
         } else if(argumento == "-o"){
+
             tabelaSimbolos = primeira_passagem(argv[2]);
-            for(it=tabelaSimbolos.begin(); it != tabelaSimbolos.end(); it++) {
-                it->imprimir();
-            }
             segunda_passagem(argv[2], tabelaSimbolos);                   
+            
+            /**** Para visualizar a tabela de símbolos ****/
+            // for(it=tabelaSimbolos.begin(); it != tabelaSimbolos.end(); it++) {
+            //     it->imprimir();
+            // }
+            /**********************************************/
         }
         else {
             cout<<"Argumento inválido, utilize -p para o pre-processamento e -o para montar"<<endl;
