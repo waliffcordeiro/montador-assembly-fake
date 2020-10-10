@@ -20,6 +20,11 @@ vector<TabelaSimbolos> primeira_passagem(string file) {
         while(getline(entrada, linha)) {
             tokens = split(linha, ' ', '\t');
             
+            if (tokens.empty()) {
+                // Não é pra acontecer esse caso pois foi tratado no pre-processamento
+                continue;
+            }
+
             // Verificando se o primeiro token é uma label  
             if(tokens[0].back() == ':') { 
                 // Verificar se a label já foi definida
@@ -82,8 +87,13 @@ bool segunda_passagem(string file, vector<TabelaSimbolos> tabelaSimbolos) {
         while(getline(entrada, linha)) {
             vector<string> tokens;
             tokens = split(linha, ' ', '\t');
-
+            if(tokens.empty()) { // Linha vazia
+                // Não é pra acontecer esse caso pois foi tratado no pre-processamento
+                contador_linha++;
+                continue;
+            }
             string isSessao = toUpperCase(tokens[0]);
+            // Pegando a Sessão
             if(isSessao == "SECTION") {
                 sessao = toUpperCase(tokens[1]);
                 sessoes.push_back(sessao);
@@ -94,17 +104,25 @@ bool segunda_passagem(string file, vector<TabelaSimbolos> tabelaSimbolos) {
                     tokens.erase(tokens.begin()); // Retirando Label   
                 }
                 string comando = toUpperCase(tokens[0]);
-                if(tabelaInstrucoes.find(comando) != tabelaInstrucoes.end()) {
-                    // Verifica se é instrução
+                if(tabelaInstrucoes.find(comando) != tabelaInstrucoes.end()) { // Verifica se é instrução
+                    if(sessao != "TEXT") { // Se é instrução e a sessão não é TEXT.
+                        erro = true;
+                        cout << "Instrução " << comando << " está na sessão inválida. Linha: "
+                        << contador_linha << endl;
+                        contador_linha++;
+                        continue;
+                    }
+                    /* Inicializa as variáveis auxiliares para a linha objeto */
                     int tamanho = tabelaTamanhos[comando];
                     int argumento1 = -1, argumento2 = -1;
                     int qtd_argumentos = tamanho - 1, codigo;
-                    if(tamanho == (tokens.size())) {
-                        // É instrução e o tamanho é válido, verificar argumentos
+                    /**********************************************************/
+                    if(tamanho == (tokens.size())) { // É instrução de tamanho válido
                         codigo = tabelaInstrucoes[comando];
                         if (qtd_argumentos == 0) {
                             LinhaObjeto *linhaobjeto = new LinhaObjeto(codigo, argumento1, argumento2);
                             linhaObj.push_back(*linhaobjeto);
+                            contador_linha++;
                             continue;
                             
                         } else if(validaInstrucao(tokens, qtd_argumentos)) {
@@ -133,6 +151,7 @@ bool segunda_passagem(string file, vector<TabelaSimbolos> tabelaSimbolos) {
                             /*********************************************************/
                             LinhaObjeto *linhaobjeto = new LinhaObjeto(codigo, argumento1, argumento2);
                             linhaObj.push_back(*linhaobjeto);
+                            contador_linha++;
                             continue;
                         } else {
                             erro = true;
@@ -143,7 +162,7 @@ bool segunda_passagem(string file, vector<TabelaSimbolos> tabelaSimbolos) {
                     } else {
                         erro = true;
                         cout << "Erro. Na linha " << contador_linha << " a instrução" <<
-                        comando << " possui menos operadores que o necessário";
+                        comando << " possui quantidade inválida de argumentos" << endl;
                         contador_linha++;
                         continue;
                     }
@@ -184,7 +203,19 @@ bool segunda_passagem(string file, vector<TabelaSimbolos> tabelaSimbolos) {
 
             }
         }
-        if(!linhaObj.empty()) { 
+        bool existeText = false;
+        if(!sessoes.empty()) {
+            for(string &sect : sessoes) {
+                if(sect == "TEXT") {
+                    existeText = true;
+                }
+            }
+        }
+        if(!existeText) {
+            cout << "Erro. Não foi definida a Section Text." << endl;
+            erro = true;
+        }
+        if(!linhaObj.empty() && !erro) { 
             for(LinhaObjeto &linha : linhaObj) {
                 linha.imprimir();
             }
