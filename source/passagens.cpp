@@ -31,7 +31,7 @@ vector<TabelaSimbolos> primeira_passagem(string file) {
                 // Verificar se a label já foi definida
                 for(it=tabelaSimbolos.begin(); it != tabelaSimbolos.end(); it++) {
                     if(tokens[0] == it->getSimbolo()) { // Se foi definida, deu erro
-                        cout<<"Erro: "<< tokens[0] << " redefinido na linha " << contador_linha << endl;
+                        cout<<"(Linha: " << contador_linha << ") Erro.Símbolo "<< tokens[0] << " redefinido." << endl;
                         break;
                     }
                 }
@@ -56,7 +56,7 @@ vector<TabelaSimbolos> primeira_passagem(string file) {
                 contador_posicao += tamanho;
             }
             else { // Se não é instrução nem diretiva
-                cout << "Operação inválida: "<< comando << " na linha " << contador_linha << endl;
+                cout << "(Linha: " << contador_linha<< ")Erro. Operação inválida: "<< comando << endl;
             }
         contador_linha++;
         }
@@ -110,8 +110,7 @@ bool segunda_passagem(string file, vector<TabelaSimbolos> tabelaSimbolos) {
             /******************************************************/
 
             string isSessao = toUpperCase(tokens[0]);
-            // Pegando a Sessão
-            if(isSessao == "SECTION") {
+            if(isSessao == "SECTION") { // Pegando a Sessão
                 sessao = toUpperCase(tokens[1]);
                 sessoes.push_back(sessao);
                 contador_linha++;
@@ -172,13 +171,13 @@ bool segunda_passagem(string file, vector<TabelaSimbolos> tabelaSimbolos) {
                             continue;
                         } else {
                             erro = true;
-                            // Erro
+                            cout << "(Linha: " << contador_linha << "). Formato de argumentos inválido." << endl;
                             contador_linha++;
                             continue;
                         }
                     } else {
                         erro = true;
-                        cout << "Erro. Na linha " << contador_linha << " a instrução" <<
+                        cout << "(Linha: "  << contador_linha << ") Erro." << " A instrução" <<
                         comando << " possui quantidade inválida de argumentos" << endl;
                         contador_linha++;
                         continue;
@@ -187,7 +186,7 @@ bool segunda_passagem(string file, vector<TabelaSimbolos> tabelaSimbolos) {
                     // Verifica se é diretiva
                     if(sessao != "DATA") {
                         erro = true;
-                        cout << "Linha: " << contador_linha << " Erro. A diretiva " << 
+                        cout << "(Linha: " << contador_linha << ") Erro. A diretiva " << 
                         comando << "não está na Section correta.";
                         contador_linha++;
                         continue;
@@ -211,11 +210,12 @@ bool segunda_passagem(string file, vector<TabelaSimbolos> tabelaSimbolos) {
                                 }
                             }
                         } else {
-                            cout << "Operação " << comando << "indefinida na linha " << contador_linha << endl;   
+                            cout << "(Linha: " << contador_linha << ") Erro. Operação " << comando << " indefinida" << endl;   
                         }
                     }
                 } else {
                     // Não é comando nem diretiva, conferir sintaxe
+                    cout << "(Linha: " << contador_linha << ") Erro. Operação inválida: " << comando << endl;
                 }
 
             }
