@@ -76,7 +76,7 @@ bool segunda_passagem(string file, vector<TabelaSimbolos> tabelaSimbolos) {
 
     vector<LinhaObjeto> linhaObj;
 
-    int contador_linha = 1;
+    int contador_linha = 1, qtd_labels;
     bool erro = false;
     
     // Pegando o nome do arquivo sem a extensão e o path
@@ -93,6 +93,22 @@ bool segunda_passagem(string file, vector<TabelaSimbolos> tabelaSimbolos) {
                 contador_linha++;
                 continue;
             }
+
+            /* Verificando se tem mais de uma labem na mesma linha */
+            qtd_labels = 0;
+            for(string &palavra : tokens) {
+                if (validaLabel(palavra)) {
+                    qtd_labels++;
+                }
+            }
+            if(qtd_labels > 1) {
+                cout << "(Linha: " << contador_linha << 
+                ") Erro. Mais de uma label definida na linha." << endl;
+                erro = true;
+                contador_linha++;
+            }
+            /******************************************************/
+
             string isSessao = toUpperCase(tokens[0]);
             // Pegando a Sessão
             if(isSessao == "SECTION") {
