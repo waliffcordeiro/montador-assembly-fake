@@ -51,7 +51,7 @@ void pre_processamento(string file) {
                                     EQUs.push_back(*equ);
                                 }
                                 else { // Verificando quantidade de argumentos no EQU
-                                    cout << "O EQU referente ao " << elemento << " foi definido com quantidade não permitida de parâmetros. Utilize apenas um parâmetro."<<endl;
+                                    cout << "Erro sintático. O EQU referente ao " << elemento << " foi definido com quantidade não permitida de parâmetros. Utilize apenas um parâmetro."<<endl;
                                     continue;
                                 }
                             }
@@ -104,7 +104,7 @@ void pre_processamento(string file) {
                 if(isEQU == "EQU" && tokens.size() != 3) {
                     tokens[0].pop_back();
                     string elemento = tokens[0];
-                    cout << "O EQU referente ao " << elemento << " foi definido com quantidade não permitida de parâmetros. Utilize apenas um parâmetro."<<endl;
+                    cout << "Erro sintático. O EQU referente ao " << elemento << " foi definido com quantidade não permitida de parâmetros. Utilize apenas um parâmetro."<<endl;
                     continue;
                 }
 
@@ -132,7 +132,7 @@ void pre_processamento(string file) {
                                 }
                             } else if (qtd_EQUs == EQUs.size()) {
                                 // Iterou todo o vector e não encontrou o elemento
-                                cout << tokens[1] << " foi passado como argumento de um IF mas não foi definido."<< endl;
+                                cout << "Erro semântico. " << tokens[1] << " foi passado como argumento de um IF mas não foi definido."<< endl;
                                 // Ignorando a linha seguinte
                                 getline(entrada, linha);
                                 break;
@@ -153,7 +153,7 @@ void pre_processamento(string file) {
                     if(tokens.size() != 3) { // Verificando quantidade de argumentos do EQU
                         string elemento = tokens[0];
                         elemento.pop_back();
-                        cout << "O EQU referente ao " << elemento << " foi definido com quantidade não permitida de parâmetros. Utilize apenas um parâmetro."<<endl;
+                        cout << "Erro sintático. O EQU referente ao " << elemento << " foi definido com quantidade não permitida de parâmetros. Utilize apenas um parâmetro."<<endl;
                         continue;
                     }
                     tokens[0].pop_back(); // Retirando o : para salvar o nome do EQU
