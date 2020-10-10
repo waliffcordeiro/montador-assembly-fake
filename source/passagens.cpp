@@ -257,6 +257,12 @@ bool segunda_passagem(string file, vector<TabelaSimbolos> tabelaSimbolos) {
                                     linhaObj.push_back(*linhaobjeto);
                                     contador_linha++;
                                     continue;
+                                } else {
+                                    cout << "(Linha: " << contador_linha << 
+                                    ") Erro sintático. O argumento " << tokens[1] << " para o CONST é inválido" << endl;
+                                    erro = true;
+                                    contador_linha++;
+                                    continue;
                                 }
                             }
                         } else { // Não 
