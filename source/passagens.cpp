@@ -22,6 +22,7 @@ vector<TabelaSimbolos> primeira_passagem(string file) {
             
             if (tokens.empty()) {
                 // Não é pra acontecer esse caso pois foi tratado no pre-processamento
+                contador_linha++;
                 continue;
             }
 
@@ -107,8 +108,8 @@ bool segunda_passagem(string file, vector<TabelaSimbolos> tabelaSimbolos) {
                 if(tabelaInstrucoes.find(comando) != tabelaInstrucoes.end()) { // Verifica se é instrução
                     if(sessao != "TEXT") { // Se é instrução e a sessão não é TEXT.
                         erro = true;
-                        cout << "Instrução " << comando << " está na sessão inválida. Linha: "
-                        << contador_linha << endl;
+                        cout << "(Linha: " << contador_linha << ") Instrução " << 
+                        comando << " está na sessão inválida." << endl;
                         contador_linha++;
                         continue;
                     }
@@ -168,10 +169,10 @@ bool segunda_passagem(string file, vector<TabelaSimbolos> tabelaSimbolos) {
                     }
                 } else if (tabelaTamanhos.find(comando) != tabelaTamanhos.end()) {
                     // Verifica se é diretiva
-                    if(sessao == "TEXT") {
+                    if(sessao != "DATA") {
                         erro = true;
                         cout << "Linha: " << contador_linha << " Erro. A diretiva " << 
-                        comando << "está na Section Text";
+                        comando << "não está na Section correta.";
                         contador_linha++;
                         continue;
                     } else {
