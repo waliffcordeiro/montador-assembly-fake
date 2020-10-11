@@ -319,7 +319,7 @@ bool segunda_passagem(string file, vector<TabelaSimbolos> tabelaSimbolos) {
         
         /* Salvando no arquivo, se tiver algo para salvar e não houver erros */
         if(!linhaObj.empty() && !erro) { 
-            ofstream saida(nome_arquivo+".o"); // ofstream -> registro de arquivo, sai do programa e salva em arquivo
+            ofstream saida(nome_arquivo+".obj"); // ofstream -> registro de arquivo, sai do programa e salva em arquivo
             for(LinhaObjeto &valor : linhaObj) {
                     if(valor.codigo != -1) {
                         saida<<valor.codigo<<" ";
