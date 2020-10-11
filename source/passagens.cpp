@@ -231,6 +231,57 @@ bool segunda_passagem(string file, vector<TabelaSimbolos> tabelaSimbolos) {
                             if(comando == "COPY") {
                                 cout << "(Linha: " << contador_linha << ") Erro sintático. Formato de argumentos inválido."<< endl << 
                                 "O COPY deve ter dois argumentos separados por uma vírgula e um espaço. Exemplo: COPY TAM1, TAM2" << endl;
+                                
+                                /******* Verificando os símbolos do COPY *******/
+                                if(qtd_argumentos == 1) {
+                                    bool encontrouSimbolo = false;
+                                    for(TabelaSimbolos &simbolo : tabelaSimbolos) {
+                                            if(simbolo.getSimbolo() == tokens[1]) {
+                                                argumento1 = simbolo.getPosicao();
+                                                encontrouSimbolo = true;
+                                                break;
+                                            }
+                                    }
+                                    if(!encontrouSimbolo) { // Não encontrou símbolo
+                                        cout << "(Linha: " << contador_linha << 
+                                        ") Erro semântico. O símbolo" << tokens[1] << 
+                                        " não está definido na tabela de símbolos"<<endl;
+                                    }
+                                } else if(qtd_argumentos == 2) {
+                                    bool encontrouSimbolo1 = false, encontrouSimbolo2 = false;
+                                    for(TabelaSimbolos &simbolo : tabelaSimbolos) {
+                                        if(simbolo.getSimbolo() == tokens[1]) {
+                                            encontrouSimbolo1 = true;
+                                            argumento1 = simbolo.getPosicao();
+                                        }
+                                        if(simbolo.getSimbolo() == tokens[2]) {
+                                            encontrouSimbolo2 = true;
+                                            argumento2 = simbolo.getPosicao();
+                                        }
+                                    }
+                                    /**** Não encontrou símbolo ****/
+                                    if(!encontrouSimbolo1) {
+                                        cout << "(Linha: " << contador_linha << 
+                                        ") Erro semântico. O simbolo do primeiro argumento " << tokens[1] << 
+                                        " não está definido na tabela de símbolos"<<endl;
+                                        if(!encontrouSimbolo2) {
+                                            cout << "(Linha: " << contador_linha << 
+                                            ") Erro semântico. O simbolo do segundo argumento " << tokens[2] << 
+                                            " não está definido na tabela de símbolos"<<endl;
+                                        }
+                                    }
+                                    else if(!encontrouSimbolo2) {
+                                        cout << "(Linha: " << contador_linha << 
+                                        ") Erro semântico. O simbolo do segundo argumento " << tokens[2] << 
+                                        " não está definido na tabela de símbolos"<<endl;
+                                        if(!encontrouSimbolo1) {
+                                            cout << "(Linha: " << contador_linha << 
+                                            ") Erro semântico. O simbolo do primeiro argumento " << tokens[1] << 
+                                            " não está definido na tabela de símbolos"<<endl;
+                                        }
+                                    }
+                                }
+                                /**************************************/
                             } else {
                                 cout << "(Linha: " << contador_linha << ") Erro sintático. Formato de argumentos inválido." << endl;
                             }
