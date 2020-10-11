@@ -144,8 +144,6 @@ bool segunda_passagem(string file, vector<TabelaSimbolos> tabelaSimbolos) {
                         erro = true;
                         cout << "(Linha: " << contador_linha << ") Erro semântica. Instrução " << 
                         comando << " está na sessão inválida." << endl;
-                        contador_linha++;
-                        continue;
                     }
                     /* Inicializa as variáveis auxiliares para a linha objeto */
                     int tamanho = tabelaTamanhos[comando];
