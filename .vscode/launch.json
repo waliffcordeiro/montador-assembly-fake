@@ -10,8 +10,8 @@
             "request": "launch",
             "program": "${workspaceFolder}/montador",
             "args": [
-                "-o",
-                "bin.PRE"
+                "-p ou -o",
+                "arquivo.asm ou arquivo.pre"
             ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
