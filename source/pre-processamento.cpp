@@ -25,7 +25,7 @@ void pre_processamento(string file) {
             // Separa todos os tokens em um vector de string retirando espaços e tabulações
             tokens = split(linha, ' ', '\t');
 
-            if(tokens.size() == 1) { // Só um token. É comando, label ou IF 
+            if(tokens.size() == 1) { // Só um token. É comando ou label
                 if (tokens[0].front() == ';') { // Ignorando comentário
                     continue;
                 }
