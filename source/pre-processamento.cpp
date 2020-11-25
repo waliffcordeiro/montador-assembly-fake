@@ -87,8 +87,8 @@ void pre_processamento(string file) {
                                         }
                                     }
                                 }
+                                contador++;
                             }
-                            contador++;
                             linhas.push_back(*linhaObj);                
                         } 
                     }               
